@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { Template } from '../build/Shapes'
+import { Circle } from '../build/Shapes'
 
-ReactDOM.render(<Template/>,document.getElementById('app'))
+ReactDOM.render(<Circle radius={100}/>,document.getElementById('app'))

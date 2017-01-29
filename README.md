@@ -1,2 +1,2 @@
-# mojs-react
-Goal is to port over the mojs library over to a React component library.
+# Shape In Motion
+Goal is to create a React component library for shapes in motion.
