@@ -25,7 +25,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // radius      number      50             Radius of circle
 // radiusX     number      50             Radius of ellipse in X direction
 // radiusY     number      50             Radius of ellipse in Y direction
-
+// x           number      0              Transform position on the x axis
+// y           number      0              Transform position on the y axis
 
 var Circle = function (_React$Component) {
   _inherits(Circle, _React$Component);
@@ -45,7 +46,8 @@ var Circle = function (_React$Component) {
           marginTop: '-50px',
           opacity: '1',
           left: '50%',
-          top: '50%'
+          top: '50%',
+          transform: ''
         },
         canvas: {
           display: 'block',
@@ -82,7 +84,9 @@ var Circle = function (_React$Component) {
           isShown = _props.isShown,
           radius = _props.radius,
           radiusX = _props.radiusX,
-          radiusY = _props.radiusY;
+          radiusY = _props.radiusY,
+          x = _props.x,
+          y = _props.y;
 
 
       if (isShown === false) shapeContainer.opacity = '0';
@@ -107,6 +111,15 @@ var Circle = function (_React$Component) {
         shape.cy = radiusY;
         shapeContainer.height = radiusY * 2 + 'px';
         shapeContainer.marginTop = '-' + radiusY + 'px';
+      }
+      if (x && y) {
+        y = -y;
+        shapeContainer.transform = 'translate(' + x + 'px, ' + y + 'px)';
+      } else if (x) {
+        shapeContainer.transform = 'translate(' + x + 'px, 0px)';
+      } else if (y) {
+        y = -y;
+        shapeContainer.transform = 'translate(0px, ' + y + 'px)';
       }
 
       return _react2.default.createElement(

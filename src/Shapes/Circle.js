@@ -7,7 +7,8 @@
   // radius      number      50             Radius of circle
   // radiusX     number      50             Radius of ellipse in X direction
   // radiusY     number      50             Radius of ellipse in Y direction
-
+  // x           number      0              Transform position on the x axis
+  // y           number      0              Transform position on the y axis
 
 import React from 'react'
 
@@ -27,6 +28,7 @@ export default class Circle extends React.Component {
           opacity: '1',
           left: '50%',
           top: '50%',
+          transform: ''
         },
         canvas: {
           display: 'block',
@@ -53,7 +55,7 @@ export default class Circle extends React.Component {
 
   render() {
     let { shapeContainer, canvas, shape } = this.state.style
-    let { isShown, radius, radiusX, radiusY } = this.props
+    let { isShown, radius, radiusX, radiusY, x, y } = this.props
 
     if ( isShown === false ) shapeContainer.opacity = '0'
     if ( radius ) {
@@ -77,6 +79,15 @@ export default class Circle extends React.Component {
       shape.cy = radiusY
       shapeContainer.height = `${radiusY*2}px`
       shapeContainer.marginTop = `-${radiusY}px`
+    }
+    if ( x && y ) {
+      y = -y
+      shapeContainer.transform = `translate(${x}px, ${y}px)`
+    } else if ( x ) {
+      shapeContainer.transform = `translate(${x}px, 0px)`
+    } else if ( y ) {
+      y = -y
+      shapeContainer.transform = `translate(0px, ${y}px)`
     }
 
     return (
