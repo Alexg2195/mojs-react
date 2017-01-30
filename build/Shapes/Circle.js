@@ -103,8 +103,8 @@ var Circle = function (_React$Component) {
         shape.cy = radius;
         shapeContainer.width = radius * 2;
         shapeContainer.height = radius * 2;
-        shapeContainer.marginLeft = radius * -2;
-        shapeContainer.marginTop = radius * -2;
+        shapeContainer.marginLeft = radius * -1;
+        shapeContainer.marginTop = radius * -1;
       }
       if (radiusX) {
         shape.rx = radiusX;
