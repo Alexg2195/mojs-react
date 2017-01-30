@@ -30,6 +30,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // fill           string      'pink'           Fill color for circle
 // stroke         string      'transparent'    Stroke color for circle border
 // strokeWidth    number      0                Stroke width in px
+// animate        [{}]
 
 
 var Circle = function (_React$Component) {
@@ -70,7 +71,14 @@ var Circle = function (_React$Component) {
           fill: 'pink',
           strokeWidth: 0,
           strokeOpacity: 1,
-          stroke: 'transparent'
+          stroke: 'transparent',
+          animationName: '',
+          animationTimingFunction: 'ease-in-out',
+          animationDuration: '4s',
+          animationDelay: '0s',
+          animationIterationCount: 1,
+          animationDirection: 'normal',
+          animationFillMode: 'forwards'
         }
       }
     };
@@ -93,7 +101,8 @@ var Circle = function (_React$Component) {
           y = _props.y,
           fill = _props.fill,
           stroke = _props.stroke,
-          strokeWidth = _props.strokeWidth;
+          strokeWidth = _props.strokeWidth,
+          animate = _props.animate;
 
 
       if (isShown === false) shapeContainer.opacity = '0';
@@ -150,6 +159,16 @@ var Circle = function (_React$Component) {
       shapeContainer.height += 'px';
       shapeContainer.marginLeft += 'px';
       shapeContainer.marginTop += 'px';
+
+      if (animate) {
+        console.log(animate);
+        var styleSheet = document.styleSheets[0];
+        var keyframes = '@-webkit-keyframes ' + animate[0].name + ' {\n          from {\n            rx: ' + animate[0].animations[0].radius[0] + ';\n            ry: ' + animate[0].animations[0].radius[0] + ';\n          }\n          to {\n            rx: ' + animate[0].animations[0].radius[1] + ';\n            ry: ' + animate[0].animations[0].radius[1] + ';\n          }\n        }';
+
+        styleSheet.insertRule(keyframes, 0);
+
+        shape.animationName = animate[0].name;
+      }
 
       return _react2.default.createElement(
         'div',

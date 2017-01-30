@@ -12,6 +12,7 @@
   // fill           string      'pink'           Fill color for circle
   // stroke         string      'transparent'    Stroke color for circle border
   // strokeWidth    number      0                Stroke width in px
+  // animate        [{}]
 
 
 import React from 'react'
@@ -51,7 +52,14 @@ export default class Circle extends React.Component {
           fill: 'pink',
           strokeWidth: 0,
           strokeOpacity: 1,
-          stroke: 'transparent'
+          stroke: 'transparent',
+          animationName: '',
+          animationTimingFunction: 'ease-in-out',
+          animationDuration: '4s',
+          animationDelay: '0s',
+          animationIterationCount: 1,
+          animationDirection: 'normal',
+          animationFillMode: 'forwards'
         }
       }
     }
@@ -59,7 +67,7 @@ export default class Circle extends React.Component {
 
   render() {
     let { shapeContainer, canvas, shape } = this.state.style
-    let { isShown, radius, radiusX, radiusY, x, y, fill, stroke, strokeWidth } = this.props
+    let { isShown, radius, radiusX, radiusY, x, y, fill, stroke, strokeWidth, animate } = this.props
 
     if ( isShown === false ) shapeContainer.opacity = '0'
     if ( radius ) {
@@ -115,6 +123,26 @@ export default class Circle extends React.Component {
     shapeContainer.height += 'px'
     shapeContainer.marginLeft += 'px'
     shapeContainer.marginTop += 'px'
+
+    if ( animate ) {
+      console.log(animate);
+      let styleSheet = document.styleSheets[0]
+      let keyframes =
+        `@-webkit-keyframes ${animate[0].name} {
+          from {
+            rx: ${animate[0].animations[0].radius[0]};
+            ry: ${animate[0].animations[0].radius[0]};
+          }
+          to {
+            rx: ${animate[0].animations[0].radius[1]};
+            ry: ${animate[0].animations[0].radius[1]};
+          }
+        }`
+
+      styleSheet.insertRule(keyframes, 0)
+
+      shape.animationName = animate[0].name
+    }
 
     return (
       <div style={shapeContainer}>
