@@ -30,8 +30,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // fill           string      'pink'           Fill color for circle
 // stroke         string      'transparent'    Stroke color for circle border
 // strokeWidth    number      0                Stroke width in px
-// animate        [{}]
 
+// play           string      ''               Name of aniimation to play
+// animate        [{
+//                  name: 'test',
+//                  animationDuration: '0.6s',
+//                  animations: [{
+//                    radius: [0, 300]
+//                  }]
+//                }]
+// ********** MUST HAVE A LINKED STYLESHEET FOR ANIMATIONS TO WORK*********************
 
 var Circle = function (_React$Component) {
   _inherits(Circle, _React$Component);
@@ -101,9 +109,12 @@ var Circle = function (_React$Component) {
           y = _props.y,
           fill = _props.fill,
           stroke = _props.stroke,
-          strokeWidth = _props.strokeWidth,
-          animate = _props.animate;
+          strokeWidth = _props.strokeWidth;
+      var _props2 = this.props,
+          animate = _props2.animate,
+          play = _props2.play;
 
+      // Overrides for Circle Defaults
 
       if (isShown === false) shapeContainer.opacity = '0';
       if (radius) {
@@ -160,14 +171,27 @@ var Circle = function (_React$Component) {
       shapeContainer.marginLeft += 'px';
       shapeContainer.marginTop += 'px';
 
+      // Dynamic Keyframe Animations
       if (animate) {
-        console.log(animate);
-        var styleSheet = document.styleSheets[0];
-        var keyframes = '@-webkit-keyframes ' + animate[0].name + ' {\n          from {\n            rx: ' + animate[0].animations[0].radius[0] + ';\n            ry: ' + animate[0].animations[0].radius[0] + ';\n          }\n          to {\n            rx: ' + animate[0].animations[0].radius[1] + ';\n            ry: ' + animate[0].animations[0].radius[1] + ';\n          }\n        }';
+        (function () {
+          var styleSheet = document.styleSheets[0];
 
-        styleSheet.insertRule(keyframes, 0);
+          animate.forEach(function (animation) {
+            var keyframes = '@-webkit-keyframes ' + animate[0].name + ' {\n            from {\n              rx: ' + animate[0].animations[0].radius[0] + ';\n              ry: ' + animate[0].animations[0].radius[0] + ';\n            }\n            to {\n              rx: ' + animate[0].animations[0].radius[1] + ';\n              ry: ' + animate[0].animations[0].radius[1] + ';\n            }\n          }';
 
-        shape.animationName = animate[0].name;
+            styleSheet.insertRule(keyframes, 0);
+          });
+        })();
+      }
+      if (play) {
+        shape.animationName = play;
+        animate.forEach(function (animation) {
+          if (animation.name === play) {
+            if (animation.animationDuration) {
+              shape.animationDuration = animation.animationDuration;
+            }
+          }
+        });
       }
 
       return _react2.default.createElement(

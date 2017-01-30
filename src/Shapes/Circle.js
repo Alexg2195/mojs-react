@@ -12,8 +12,16 @@
   // fill           string      'pink'           Fill color for circle
   // stroke         string      'transparent'    Stroke color for circle border
   // strokeWidth    number      0                Stroke width in px
-  // animate        [{}]
 
+  // play           string      ''               Name of aniimation to play
+  // animate        [{
+  //                  name: 'test',
+  //                  animationDuration: '0.6s',
+  //                  animations: [{
+  //                    radius: [0, 300]
+  //                  }]
+  //                }]
+  // ********** MUST HAVE A LINKED STYLESHEET FOR ANIMATIONS TO WORK*********************
 
 import React from 'react'
 
@@ -67,8 +75,10 @@ export default class Circle extends React.Component {
 
   render() {
     let { shapeContainer, canvas, shape } = this.state.style
-    let { isShown, radius, radiusX, radiusY, x, y, fill, stroke, strokeWidth, animate } = this.props
+    let { isShown, radius, radiusX, radiusY, x, y, fill, stroke, strokeWidth } = this.props
+    let { animate, play } = this.props
 
+    // Overrides for Circle Defaults
     if ( isShown === false ) shapeContainer.opacity = '0'
     if ( radius ) {
       shape.rx = radius
@@ -124,24 +134,35 @@ export default class Circle extends React.Component {
     shapeContainer.marginLeft += 'px'
     shapeContainer.marginTop += 'px'
 
+    // Dynamic Keyframe Animations
     if ( animate ) {
-      console.log(animate);
       let styleSheet = document.styleSheets[0]
-      let keyframes =
-        `@-webkit-keyframes ${animate[0].name} {
-          from {
-            rx: ${animate[0].animations[0].radius[0]};
-            ry: ${animate[0].animations[0].radius[0]};
-          }
-          to {
-            rx: ${animate[0].animations[0].radius[1]};
-            ry: ${animate[0].animations[0].radius[1]};
-          }
-        }`
 
-      styleSheet.insertRule(keyframes, 0)
+      animate.forEach(function(animation) {
+        let keyframes =
+          `@-webkit-keyframes ${animate[0].name} {
+            from {
+              rx: ${animate[0].animations[0].radius[0]};
+              ry: ${animate[0].animations[0].radius[0]};
+            }
+            to {
+              rx: ${animate[0].animations[0].radius[1]};
+              ry: ${animate[0].animations[0].radius[1]};
+            }
+          }`
 
-      shape.animationName = animate[0].name
+        styleSheet.insertRule(keyframes, 0)
+      })
+    }
+    if ( play ) {
+      shape.animationName = play
+      animate.forEach(function(animation) {
+        if (animation.name === play) {
+          if (animation.animationDuration) {
+            shape.animationDuration = animation.animationDuration
+          }
+        }
+      })
     }
 
     return (
