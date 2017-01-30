@@ -31,6 +31,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // stroke         string      'transparent'    Stroke color for circle border
 // strokeWidth    number      0                Stroke width in px
 
+
 var Circle = function (_React$Component) {
   _inherits(Circle, _React$Component);
 
@@ -110,13 +111,13 @@ var Circle = function (_React$Component) {
         shape.rx = radiusX;
         shape.cx = radiusX;
         shapeContainer.width = radiusX * 2;
-        shapeContainer.marginLeft = radiusX * -2;
+        shapeContainer.marginLeft = radiusX * -1;
       }
       if (radiusY) {
         shape.ry = radiusY;
         shape.cy = radiusY;
         shapeContainer.height = radiusY * 2;
-        shapeContainer.marginTop = radiusY * -2;
+        shapeContainer.marginTop = radiusY * -1;
       }
       if (x && y) {
         y = -y;

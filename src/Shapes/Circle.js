@@ -13,6 +13,7 @@
   // stroke         string      'transparent'    Stroke color for circle border
   // strokeWidth    number      0                Stroke width in px
 
+
 import React from 'react'
 
 
@@ -75,13 +76,13 @@ export default class Circle extends React.Component {
       shape.rx = radiusX
       shape.cx = radiusX
       shapeContainer.width = radiusX*2
-      shapeContainer.marginLeft = radiusX*-2
+      shapeContainer.marginLeft = radiusX*-1
     }
     if ( radiusY ) {
       shape.ry = radiusY
       shape.cy = radiusY
       shapeContainer.height = radiusY*2
-      shapeContainer.marginTop = radiusY*-2
+      shapeContainer.marginTop = radiusY*-1
     }
     if ( x && y ) {
       y = -y
