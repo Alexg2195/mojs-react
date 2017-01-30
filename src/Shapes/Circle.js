@@ -1,14 +1,17 @@
 // Circle / ellipse
 
 // Properties List
-  // Name        Type        Default        Description
+  // Name           Type        Default          Description
   // -----------------------------------------------------------------------------------
-  // isShown     bool        true           If false will hide shape
-  // radius      number      50             Radius of circle
-  // radiusX     number      50             Radius of ellipse in X direction
-  // radiusY     number      50             Radius of ellipse in Y direction
-  // x           number      0              Transform position on the x axis
-  // y           number      0              Transform position on the y axis
+  // isShown        bool        true             If false will hide shape
+  // radius         number      50               Radius of circle
+  // radiusX        number      50               Radius of ellipse in X direction
+  // radiusY        number      50               Radius of ellipse in Y direction
+  // x              number      0                Transform position on the x axis
+  // y              number      0                Transform position on the y axis
+  // fill           string      'pink'           Fill color for circle
+  // stroke         string      'transparent'    Stroke color for circle border
+  // strokeWidth    number      0                Stroke width in px
 
 import React from 'react'
 
@@ -21,10 +24,10 @@ export default class Circle extends React.Component {
       style: {
         shapeContainer: {
           position: 'absolute',
-          width: '100px',
-          height: '100px',
-          marginLeft: '-50px',
-          marginTop: '-50px',
+          width: 100,
+          height: 100,
+          marginLeft: -50,
+          marginTop: -50,
           opacity: '1',
           left: '50%',
           top: '50%',
@@ -45,7 +48,7 @@ export default class Circle extends React.Component {
           cy: 50,
           fillOpacity: 1,
           fill: 'pink',
-          strokeWidth: 2,
+          strokeWidth: 0,
           strokeOpacity: 1,
           stroke: 'transparent'
         }
@@ -55,7 +58,7 @@ export default class Circle extends React.Component {
 
   render() {
     let { shapeContainer, canvas, shape } = this.state.style
-    let { isShown, radius, radiusX, radiusY, x, y } = this.props
+    let { isShown, radius, radiusX, radiusY, x, y, fill, stroke, strokeWidth } = this.props
 
     if ( isShown === false ) shapeContainer.opacity = '0'
     if ( radius ) {
@@ -63,22 +66,22 @@ export default class Circle extends React.Component {
       shape.ry = radius
       shape.cx = radius
       shape.cy = radius
-      shapeContainer.width = `${radius*2}px`
-      shapeContainer.height = `${radius*2}px`
-      shapeContainer.marginLeft = `-${radius}px`
-      shapeContainer.marginTop = `-${radius}px`
+      shapeContainer.width = radius*2
+      shapeContainer.height = radius*2
+      shapeContainer.marginLeft = radius*-2
+      shapeContainer.marginTop = radius*-2
     }
     if ( radiusX ) {
       shape.rx = radiusX
       shape.cx = radiusX
-      shapeContainer.width = `${radiusX*2}px`
-      shapeContainer.marginLeft = `-${radiusX}px`
+      shapeContainer.width = radiusX*2
+      shapeContainer.marginLeft = radiusX*-2
     }
     if ( radiusY ) {
       shape.ry = radiusY
       shape.cy = radiusY
-      shapeContainer.height = `${radiusY*2}px`
-      shapeContainer.marginTop = `-${radiusY}px`
+      shapeContainer.height = radiusY*2
+      shapeContainer.marginTop = radiusY*-2
     }
     if ( x && y ) {
       y = -y
@@ -89,6 +92,28 @@ export default class Circle extends React.Component {
       y = -y
       shapeContainer.transform = `translate(0px, ${y}px)`
     }
+    if ( fill ) {
+      shape.fill = fill
+    }
+    if ( stroke ) {
+      shape.stroke = stroke
+    }
+    if ( strokeWidth ) {
+      shape.strokeWidth = strokeWidth
+      shapeContainer.width += strokeWidth
+      shapeContainer.height += strokeWidth
+      shapeContainer.marginLeft -= strokeWidth*0.5
+      shapeContainer.marginTop -= strokeWidth*0.5
+      shape.cx += strokeWidth*0.5
+      shape.cy += strokeWidth*0.5
+    }
+
+    // Suffix with px
+    shape.strokeWidth += 'px'
+    shapeContainer.width += 'px'
+    shapeContainer.height += 'px'
+    shapeContainer.marginLeft += 'px'
+    shapeContainer.marginTop += 'px'
 
     return (
       <div style={shapeContainer}>

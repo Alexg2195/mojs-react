@@ -19,14 +19,17 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Circle / ellipse
 
 // Properties List
-// Name        Type        Default        Description
+// Name           Type        Default          Description
 // -----------------------------------------------------------------------------------
-// isShown     bool        true           If false will hide shape
-// radius      number      50             Radius of circle
-// radiusX     number      50             Radius of ellipse in X direction
-// radiusY     number      50             Radius of ellipse in Y direction
-// x           number      0              Transform position on the x axis
-// y           number      0              Transform position on the y axis
+// isShown        bool        true             If false will hide shape
+// radius         number      50               Radius of circle
+// radiusX        number      50               Radius of ellipse in X direction
+// radiusY        number      50               Radius of ellipse in Y direction
+// x              number      0                Transform position on the x axis
+// y              number      0                Transform position on the y axis
+// fill           string      'pink'           Fill color for circle
+// stroke         string      'transparent'    Stroke color for circle border
+// strokeWidth    number      0                Stroke width in px
 
 var Circle = function (_React$Component) {
   _inherits(Circle, _React$Component);
@@ -40,10 +43,10 @@ var Circle = function (_React$Component) {
       style: {
         shapeContainer: {
           position: 'absolute',
-          width: '100px',
-          height: '100px',
-          marginLeft: '-50px',
-          marginTop: '-50px',
+          width: 100,
+          height: 100,
+          marginLeft: -50,
+          marginTop: -50,
           opacity: '1',
           left: '50%',
           top: '50%',
@@ -64,7 +67,7 @@ var Circle = function (_React$Component) {
           cy: 50,
           fillOpacity: 1,
           fill: 'pink',
-          strokeWidth: 2,
+          strokeWidth: 0,
           strokeOpacity: 1,
           stroke: 'transparent'
         }
@@ -86,7 +89,10 @@ var Circle = function (_React$Component) {
           radiusX = _props.radiusX,
           radiusY = _props.radiusY,
           x = _props.x,
-          y = _props.y;
+          y = _props.y,
+          fill = _props.fill,
+          stroke = _props.stroke,
+          strokeWidth = _props.strokeWidth;
 
 
       if (isShown === false) shapeContainer.opacity = '0';
@@ -95,22 +101,22 @@ var Circle = function (_React$Component) {
         shape.ry = radius;
         shape.cx = radius;
         shape.cy = radius;
-        shapeContainer.width = radius * 2 + 'px';
-        shapeContainer.height = radius * 2 + 'px';
-        shapeContainer.marginLeft = '-' + radius + 'px';
-        shapeContainer.marginTop = '-' + radius + 'px';
+        shapeContainer.width = radius * 2;
+        shapeContainer.height = radius * 2;
+        shapeContainer.marginLeft = radius * -2;
+        shapeContainer.marginTop = radius * -2;
       }
       if (radiusX) {
         shape.rx = radiusX;
         shape.cx = radiusX;
-        shapeContainer.width = radiusX * 2 + 'px';
-        shapeContainer.marginLeft = '-' + radiusX + 'px';
+        shapeContainer.width = radiusX * 2;
+        shapeContainer.marginLeft = radiusX * -2;
       }
       if (radiusY) {
         shape.ry = radiusY;
         shape.cy = radiusY;
-        shapeContainer.height = radiusY * 2 + 'px';
-        shapeContainer.marginTop = '-' + radiusY + 'px';
+        shapeContainer.height = radiusY * 2;
+        shapeContainer.marginTop = radiusY * -2;
       }
       if (x && y) {
         y = -y;
@@ -121,6 +127,28 @@ var Circle = function (_React$Component) {
         y = -y;
         shapeContainer.transform = 'translate(0px, ' + y + 'px)';
       }
+      if (fill) {
+        shape.fill = fill;
+      }
+      if (stroke) {
+        shape.stroke = stroke;
+      }
+      if (strokeWidth) {
+        shape.strokeWidth = strokeWidth;
+        shapeContainer.width += strokeWidth;
+        shapeContainer.height += strokeWidth;
+        shapeContainer.marginLeft -= strokeWidth * 0.5;
+        shapeContainer.marginTop -= strokeWidth * 0.5;
+        shape.cx += strokeWidth * 0.5;
+        shape.cy += strokeWidth * 0.5;
+      }
+
+      // Suffix with px
+      shape.strokeWidth += 'px';
+      shapeContainer.width += 'px';
+      shapeContainer.height += 'px';
+      shapeContainer.marginLeft += 'px';
+      shapeContainer.marginTop += 'px';
 
       return _react2.default.createElement(
         'div',
