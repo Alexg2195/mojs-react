@@ -157,27 +157,39 @@ export default class Circle extends React.Component {
         let shapeContainerToRules = []
 
         for (var property in animation.animate) {
+          let fromValue = animation.animate[property][0]
+          let toValue = animation.animate[property][1]
+
           switch (property) {
             case 'radius':
-              shapeFromRules.push(`rx: ${animation.animate[property][0]};`)
-              shapeFromRules.push(`ry: ${animation.animate[property][0]};`)
-              shapeToRules.push(`rx: ${animation.animate[property][1]};`)
-              shapeToRules.push(`ry: ${animation.animate[property][1]};`)
+              shapeFromRules.push(`rx: ${fromValue};`)
+              shapeFromRules.push(`ry: ${fromValue};`)
+              shapeToRules.push(`rx: ${toValue};`)
+              shapeToRules.push(`ry: ${toValue};`)
               break;
             case 'radiusX':
-              shapeFromRules.push(`rx: ${animation.animate[property][0]};`)
-              shapeToRules.push(`rx: ${animation.animate[property][1]};`)
+              shapeFromRules.push(`rx: ${fromValue};`)
+              shapeToRules.push(`rx: ${toValue};`)
               break;
             case 'radiusY':
-              shapeFromRules.push(`ry: ${animation.animate[property][0]};`)
-              shapeToRules.push(`ry: ${animation.animate[property][1]};`)
+              shapeFromRules.push(`ry: ${fromValue};`)
+              shapeToRules.push(`ry: ${toValue};`)
+              break;
+            case 'stroke':
+              shapeFromRules.push(`stroke: ${fromValue};`)
+              shapeToRules.push(`stroke: ${toValue};`)
+              break;
+            case 'strokeWidth':
+              shapeFromRules.push(`stroke-width: ${fromValue}px;`)
+              shapeToRules.push(`stroke-width: ${toValue}px;`)
               break;
             case 'fill':
-              shapeFromRules.push(`fill: ${animation.animate[property][0]};`)
-              shapeToRules.push(`fill: ${animation.animate[property][1]};`)
+              shapeFromRules.push(`fill: ${fromValue};`)
+              shapeToRules.push(`fill: ${toValue};`)
               break;
           }
         }
+
         keyframes =
           `@-webkit-keyframes ${animation.name}-shape {
             from {
@@ -201,30 +213,6 @@ export default class Circle extends React.Component {
           }`
         styleSheet.insertRule(keyframes, 0)
         console.log(keyframes)
-
-        // keyframes =
-        //   `@-webkit-keyframes ${animations[0].name}-shape {
-        //     from {
-        //       rx: ${animations[0].animations[0].radius[0]};
-        //       ry: ${animations[0].animations[0].radius[0]};
-        //     }
-        //     to {
-        //       rx: ${animations[0].animations[0].radius[1]};
-        //       ry: ${animations[0].animations[0].radius[1]};
-        //     }
-        //   }`
-        // styleSheet.insertRule(keyframes, 0)
-        //
-        // keyframes =
-        //   `@-webkit-keyframes ${animations[0].name}-container {
-        //     from {
-        //       left: 0%;
-        //     }
-        //     to {
-        //       left: 100%;
-        //     }
-        //   }`
-        // styleSheet.insertRule(keyframes, 0)
       })
     }
     if ( play ) {

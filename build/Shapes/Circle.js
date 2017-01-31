@@ -195,27 +195,39 @@ var Circle = function (_React$Component) {
             var shapeContainerToRules = [];
 
             for (var property in animation.animate) {
+              var fromValue = animation.animate[property][0];
+              var toValue = animation.animate[property][1];
+
               switch (property) {
                 case 'radius':
-                  shapeFromRules.push('rx: ' + animation.animate[property][0] + ';');
-                  shapeFromRules.push('ry: ' + animation.animate[property][0] + ';');
-                  shapeToRules.push('rx: ' + animation.animate[property][1] + ';');
-                  shapeToRules.push('ry: ' + animation.animate[property][1] + ';');
+                  shapeFromRules.push('rx: ' + fromValue + ';');
+                  shapeFromRules.push('ry: ' + fromValue + ';');
+                  shapeToRules.push('rx: ' + toValue + ';');
+                  shapeToRules.push('ry: ' + toValue + ';');
                   break;
                 case 'radiusX':
-                  shapeFromRules.push('rx: ' + animation.animate[property][0] + ';');
-                  shapeToRules.push('rx: ' + animation.animate[property][1] + ';');
+                  shapeFromRules.push('rx: ' + fromValue + ';');
+                  shapeToRules.push('rx: ' + toValue + ';');
                   break;
                 case 'radiusY':
-                  shapeFromRules.push('ry: ' + animation.animate[property][0] + ';');
-                  shapeToRules.push('ry: ' + animation.animate[property][1] + ';');
+                  shapeFromRules.push('ry: ' + fromValue + ';');
+                  shapeToRules.push('ry: ' + toValue + ';');
+                  break;
+                case 'stroke':
+                  shapeFromRules.push('stroke: ' + fromValue + ';');
+                  shapeToRules.push('stroke: ' + toValue + ';');
+                  break;
+                case 'strokeWidth':
+                  shapeFromRules.push('stroke-width: ' + fromValue + 'px;');
+                  shapeToRules.push('stroke-width: ' + toValue + 'px;');
                   break;
                 case 'fill':
-                  shapeFromRules.push('fill: ' + animation.animate[property][0] + ';');
-                  shapeToRules.push('fill: ' + animation.animate[property][1] + ';');
+                  shapeFromRules.push('fill: ' + fromValue + ';');
+                  shapeToRules.push('fill: ' + toValue + ';');
                   break;
               }
             }
+
             keyframes = '@-webkit-keyframes ' + animation.name + '-shape {\n            from {\n              ' + shapeFromRules.join('\n') + '\n            }\n            to {\n              ' + shapeToRules.join('\n') + '\n            }\n          }';
             styleSheet.insertRule(keyframes, 0);
             console.log(keyframes);
@@ -223,30 +235,6 @@ var Circle = function (_React$Component) {
             keyframes = '@-webkit-keyframes ' + animation.name + '-container {\n            from {\n              ' + shapeContainerFromRules.join('\n') + '\n            }\n            to {\n              ' + shapeContainerToRules.join('\n') + '\n            }\n          }';
             styleSheet.insertRule(keyframes, 0);
             console.log(keyframes);
-
-            // keyframes =
-            //   `@-webkit-keyframes ${animations[0].name}-shape {
-            //     from {
-            //       rx: ${animations[0].animations[0].radius[0]};
-            //       ry: ${animations[0].animations[0].radius[0]};
-            //     }
-            //     to {
-            //       rx: ${animations[0].animations[0].radius[1]};
-            //       ry: ${animations[0].animations[0].radius[1]};
-            //     }
-            //   }`
-            // styleSheet.insertRule(keyframes, 0)
-            //
-            // keyframes =
-            //   `@-webkit-keyframes ${animations[0].name}-container {
-            //     from {
-            //       left: 0%;
-            //     }
-            //     to {
-            //       left: 100%;
-            //     }
-            //   }`
-            // styleSheet.insertRule(keyframes, 0)
           });
         })();
       }
