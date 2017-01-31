@@ -15,7 +15,8 @@ ReactDOM.render(
         animationDuration:'1s',
         animate:{
           top: ['-20%', '50%'],
-          left: ['-20%', '50%']
+          left: ['-20%', '50%'],
+          isShown: [false, true]
         }
       }
     ]}

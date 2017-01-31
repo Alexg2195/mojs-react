@@ -169,6 +169,15 @@ export default class Circle extends React.Component {
           let toValue = animation.animate[property][1]
 
           switch (property) {
+            case 'isShown':
+              if (fromValue) {
+                shapeFromRules.push(`fill-opacity: 1;`)
+                shapeToRules.push(`fill-opacity: 0;`)
+              } else {
+                shapeFromRules.push(`fill-opacity: 0;`)
+                shapeToRules.push(`fill-opacity: 1;`)
+              }
+              break;
             case 'radius':
               shapeFromRules.push(`rx: ${fromValue};`)
               shapeFromRules.push(`ry: ${fromValue};`)
