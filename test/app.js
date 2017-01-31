@@ -6,17 +6,20 @@ import { Circle } from '../build/Shapes'
 ReactDOM.render(
   <Circle
     radius={100}
-    left='10%'
-    top='10%'
-    play='slideIn'
+    play='slide'
     animations={[
       {
-        name:'slideIn',
-        animationDuration:'1s',
-        animate:{
-          top: ['-20%', '50%'],
-          left: ['-20%', '50%'],
-          isShown: [false, true]
+        name: 'slide',
+        duration: '1s',
+        delay: '1s',
+        timingFunction: 'ease-in',
+        iterationCount: 1,
+        direction: 'alternate',
+        fillMode: 'none',
+        animate: {
+          top: ['50%', '-50%'],
+          left: ['50%', '-50%'],
+          isShown: [true, false]
         }
       }
     ]}

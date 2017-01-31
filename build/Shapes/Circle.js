@@ -33,18 +33,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // stroke         string      'transparent'    Stroke color for circle border
 // strokeWidth    number      0                Stroke width in px
 
-// play           string      ''               Name of aniimation to play
-// animations     See-Below
-// [
-//   {
-//     name: 'test',
-//     animationDuration: '1s',
-//     animate: {
-//       radius: [0, 200],
-//       fill: ['green', 'blue']
-//     }
+// Animation Properties
+// Name                Type        Default          Description
+// -----------------------------------------------------------------------------------
+// play                string      ''               Name of animation to play
+// animations          [{}]                         Example found below
+// name              string                       Name of defined animation
+// timingFunction    string      'ease-in-out'    Animation Timing Function
+// duration          string      '4s'             Duration of animation
+// delay             string      '0s'             Delay before animation
+// iterationCount    number      1                Animation interations
+// direction         string      'normal'         Animation dirction
+// fillMode          string      'forwards'       Animation Fill Mode
+
+// ***Example***
+// [{
+//   name:'slideIn',
+//   animationDuration:'1s',
+//   animate:{
+//     top: ['-20%', '50%'],
+//     left: ['-20%', '50%'],
+//     isShown: [false, true]
 //   }
-// ]
+// }]
+
+
 // ********** MUST HAVE A LINKED STYLESHEET FOR ANIMATIONS TO WORK*********************
 
 var Circle = function (_React$Component) {
@@ -275,11 +288,9 @@ var Circle = function (_React$Component) {
 
             keyframes = '@-webkit-keyframes ' + animation.name + '-shape {\n            from {\n              ' + shapeFromRules.join('\n') + '\n            }\n            to {\n              ' + shapeToRules.join('\n') + '\n            }\n          }';
             styleSheet.insertRule(keyframes, 0);
-            console.log(keyframes);
 
             keyframes = '@-webkit-keyframes ' + animation.name + '-container {\n            from {\n              ' + shapeContainerFromRules.join('\n') + '\n            }\n            to {\n              ' + shapeContainerToRules.join('\n') + '\n            }\n          }';
             styleSheet.insertRule(keyframes, 0);
-            console.log(keyframes);
           });
         })();
       }
@@ -288,9 +299,29 @@ var Circle = function (_React$Component) {
         if (animations) {
           animations.forEach(function (animation) {
             if (animation.name === play) {
-              if (animation.animationDuration) {
-                shape.animationDuration = animation.animationDuration;
-                shapeContainer.animationDuration = animation.animationDuration;
+              if (animation.duration) {
+                shape.animationDuration = animation.duration;
+                shapeContainer.animationDuration = animation.duration;
+              }
+              if (animation.timingFunction) {
+                shape.animationTimingFunction = animation.timingFunction;
+                shapeContainer.animationTimingFunction = animation.timingFunction;
+              }
+              if (animation.delay) {
+                shape.animationDelay = animation.delay;
+                shapeContainer.animationDelay = animation.delay;
+              }
+              if (animation.iterationCount) {
+                shape.animationIterationCount = animation.iterationCount;
+                shapeContainer.animationIterationCount = animation.iterationCount;
+              }
+              if (animation.direction) {
+                shape.animationDirection = animation.direction;
+                shapeContainer.animationDirection = animation.direction;
+              }
+              if (animation.fillMode) {
+                shape.animationFillMode = animation.fillMode;
+                shapeContainer.animationFillMode = animation.fillMode;
               }
               shape.animationName = play + '-shape';
               shapeContainer.animationName = play + '-container';
