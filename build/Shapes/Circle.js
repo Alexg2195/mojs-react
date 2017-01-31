@@ -25,6 +25,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // radius         number      50               Radius of circle
 // radiusX        number      50               Radius of ellipse in X direction
 // radiusY        number      50               Radius of ellipse in Y direction
+// left           number      50%              Left position of shape
 // x              number      0                Transform position on the x axis
 // y              number      0                Transform position on the y axis
 // fill           string      'pink'           Fill color for circle
@@ -116,6 +117,8 @@ var Circle = function (_React$Component) {
           radius = _props.radius,
           radiusX = _props.radiusX,
           radiusY = _props.radiusY,
+          left = _props.left,
+          top = _props.top,
           x = _props.x,
           y = _props.y,
           fill = _props.fill,
@@ -149,6 +152,12 @@ var Circle = function (_React$Component) {
         shape.cy = radiusY;
         shapeContainer.height = radiusY * 2;
         shapeContainer.marginTop = radiusY * -1;
+      }
+      if (left) {
+        shapeContainer.left = left;
+      }
+      if (top) {
+        shapeContainer.top = top;
       }
       if (x && y) {
         y = -y;
@@ -258,19 +267,23 @@ var Circle = function (_React$Component) {
       }
       if (play) {
         var animationFound = false;
-        animations.forEach(function (animation) {
-          if (animation.name === play) {
-            if (animation.animationDuration) {
-              shape.animationDuration = animation.animationDuration;
-              shapeContainer.animationDuration = animation.animationDuration;
+        if (animations) {
+          animations.forEach(function (animation) {
+            if (animation.name === play) {
+              if (animation.animationDuration) {
+                shape.animationDuration = animation.animationDuration;
+                shapeContainer.animationDuration = animation.animationDuration;
+              }
+              shape.animationName = play + '-shape';
+              shapeContainer.animationName = play + '-container';
+              animationFound = true;
             }
-            shape.animationName = play + '-shape';
-            shapeContainer.animationName = play + '-container';
-            animationFound = true;
+          });
+          if (!animationFound) {
+            console.log('Err: No Animation found with that name!');
           }
-        });
-        if (!animationFound) {
-          console.log('Err: No Animation found with that name!');
+        } else {
+          console.log('Err: No Animations Defined!');
         }
       }
 

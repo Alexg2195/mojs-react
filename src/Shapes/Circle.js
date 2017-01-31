@@ -7,6 +7,7 @@
   // radius         number      50               Radius of circle
   // radiusX        number      50               Radius of ellipse in X direction
   // radiusY        number      50               Radius of ellipse in Y direction
+  // left           number      50%              Left position of shape
   // x              number      0                Transform position on the x axis
   // y              number      0                Transform position on the y axis
   // fill           string      'pink'           Fill color for circle
@@ -86,7 +87,7 @@ export default class Circle extends React.Component {
 
   render() {
     let { shapeContainer, canvas, shape } = this.state.style
-    let { isShown, radius, radiusX, radiusY, x, y, fill, stroke, strokeWidth } = this.props
+    let { isShown, radius, radiusX, radiusY, left, top, x, y, fill, stroke, strokeWidth } = this.props
     let { animations, play } = this.props
 
     // Overrides for Circle Defaults
@@ -112,6 +113,12 @@ export default class Circle extends React.Component {
       shape.cy = radiusY
       shapeContainer.height = radiusY*2
       shapeContainer.marginTop = radiusY*-1
+    }
+    if ( left ) {
+      shapeContainer.left = left
+    }
+    if ( top ) {
+      shapeContainer.top = top
     }
     if ( x && y ) {
       y = -y
@@ -235,19 +242,23 @@ export default class Circle extends React.Component {
     }
     if ( play ) {
       let animationFound = false;
-      animations.forEach(function(animation) {
-        if (animation.name === play) {
-          if (animation.animationDuration) {
-            shape.animationDuration = animation.animationDuration
-            shapeContainer.animationDuration = animation.animationDuration
+      if (animations) {
+        animations.forEach(function(animation) {
+          if (animation.name === play) {
+            if (animation.animationDuration) {
+              shape.animationDuration = animation.animationDuration
+              shapeContainer.animationDuration = animation.animationDuration
+            }
+            shape.animationName = play+'-shape'
+            shapeContainer.animationName = play+'-container'
+            animationFound = true;
           }
-          shape.animationName = play+'-shape'
-          shapeContainer.animationName = play+'-container'
-          animationFound = true;
+        })
+        if (!animationFound) {
+          console.log('Err: No Animation found with that name!')
         }
-      })
-      if (!animationFound) {
-        console.log('Err: No Animation found with that name!')
+      } else {
+        console.log('Err: No Animations Defined!')
       }
     }
 
