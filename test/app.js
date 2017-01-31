@@ -6,7 +6,6 @@ import { Circle } from '../build/Shapes'
 ReactDOM.render(
   <Circle
     radius={200}
-    strokeWidth={7}
     play='test'
     animations={[
       {
@@ -19,6 +18,8 @@ ReactDOM.render(
           stroke: ['pink', 'black'],
           strokeWidth: [0, 10],
           fill: ['green', 'blue'],
+          x: [0, 200],
+          y: [0, 200],
         }
       }
     ]}

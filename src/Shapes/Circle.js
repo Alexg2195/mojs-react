@@ -187,6 +187,24 @@ export default class Circle extends React.Component {
               shapeFromRules.push(`fill: ${fromValue};`)
               shapeToRules.push(`fill: ${toValue};`)
               break;
+            case 'x':
+              if (animation.animate.hasOwnProperty('y')) {
+                shapeContainerFromRules.push(`transform: translate(${fromValue}px, ${animation.animate.y[0]}px);`)
+                shapeContainerToRules.push(`transform: translate(${toValue}px, ${animation.animate.y[1]}px);`)
+              } else {
+                shapeContainerFromRules.push(`transform: translate(${fromValue}px, 0px);`)
+                shapeContainerToRules.push(`transform: translate(${toValue}px, 0px);`)
+              }
+              break;
+            case 'y':
+              if (animation.animate.hasOwnProperty('y')) {
+                shapeContainerFromRules.push(`transform: translate(${animation.animate.x[0]}px, ${fromValue}px);`)
+                shapeContainerToRules.push(`transform: translate(${animation.animate.x[1]}px, ${toValue}px);`)
+              } else {
+                shapeContainerFromRules.push(`transform: translate(0px, ${fromValue}px);`)
+                shapeContainerToRules.push(`transform: translate(0px, ${toValue}px);`)
+              }
+              break;
           }
         }
 
