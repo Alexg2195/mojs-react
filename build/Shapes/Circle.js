@@ -26,6 +26,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // radiusX        number      50               Radius of ellipse in X direction
 // radiusY        number      50               Radius of ellipse in Y direction
 // left           number      50%              Left position of shape
+// top            number      50%              Top position of shape
 // x              number      0                Transform position on the x axis
 // y              number      0                Transform position on the y axis
 // fill           string      'pink'           Fill color for circle
@@ -233,6 +234,14 @@ var Circle = function (_React$Component) {
                 case 'fill':
                   shapeFromRules.push('fill: ' + fromValue + ';');
                   shapeToRules.push('fill: ' + toValue + ';');
+                  break;
+                case 'left':
+                  shapeContainerFromRules.push('left: ' + fromValue + ';');
+                  shapeContainerToRules.push('left: ' + toValue + ';');
+                  break;
+                case 'top':
+                  shapeContainerFromRules.push('top: ' + fromValue + ';');
+                  shapeContainerToRules.push('top: ' + toValue + ';');
                   break;
                 case 'x':
                   if (animation.animate.hasOwnProperty('y')) {
