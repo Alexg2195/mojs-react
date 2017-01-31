@@ -32,13 +32,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // strokeWidth    number      0                Stroke width in px
 
 // play           string      ''               Name of aniimation to play
-// animate        [{
-//                  name: 'test',
-//                  animationDuration: '0.6s',
-//                  animations: [{
-//                    radius: [0, 300]
-//                  }]
-//                }]
+// animations     See-Below
+// [
+//   {
+//     name: 'test',
+//     animationDuration: '1s',
+//     animate: {
+//       radius: [0, 200],
+//       fill: ['green', 'blue']
+//     }
+//   }
+// ]
 // ********** MUST HAVE A LINKED STYLESHEET FOR ANIMATIONS TO WORK*********************
 
 var Circle = function (_React$Component) {
@@ -60,7 +64,14 @@ var Circle = function (_React$Component) {
           opacity: '1',
           left: '50%',
           top: '50%',
-          transform: ''
+          transform: '',
+          animationName: '',
+          animationTimingFunction: 'ease-in-out',
+          animationDuration: '4s',
+          animationDelay: '0s',
+          animationIterationCount: 1,
+          animationDirection: 'normal',
+          animationFillMode: 'forwards'
         },
         canvas: {
           display: 'block',
@@ -111,7 +122,7 @@ var Circle = function (_React$Component) {
           stroke = _props.stroke,
           strokeWidth = _props.strokeWidth;
       var _props2 = this.props,
-          animate = _props2.animate,
+          animations = _props2.animations,
           play = _props2.play;
 
       // Overrides for Circle Defaults
@@ -172,26 +183,89 @@ var Circle = function (_React$Component) {
       shapeContainer.marginTop += 'px';
 
       // Dynamic Keyframe Animations
-      if (animate) {
+      if (animations) {
         (function () {
           var styleSheet = document.styleSheets[0];
 
-          animate.forEach(function (animation) {
-            var keyframes = '@-webkit-keyframes ' + animate[0].name + ' {\n            from {\n              rx: ' + animate[0].animations[0].radius[0] + ';\n              ry: ' + animate[0].animations[0].radius[0] + ';\n            }\n            to {\n              rx: ' + animate[0].animations[0].radius[1] + ';\n              ry: ' + animate[0].animations[0].radius[1] + ';\n            }\n          }';
+          animations.forEach(function (animation) {
+            var keyframes = '';
+            var shapeFromRules = [];
+            var shapeToRules = [];
+            var shapeContainerFromRules = [];
+            var shapeContainerToRules = [];
 
+            for (var property in animation.animate) {
+              switch (property) {
+                case 'radius':
+                  shapeFromRules.push('rx: ' + animation.animate[property][0] + ';');
+                  shapeFromRules.push('ry: ' + animation.animate[property][0] + ';');
+                  shapeToRules.push('rx: ' + animation.animate[property][1] + ';');
+                  shapeToRules.push('ry: ' + animation.animate[property][1] + ';');
+                  break;
+                case 'radiusX':
+                  shapeFromRules.push('rx: ' + animation.animate[property][0] + ';');
+                  shapeToRules.push('rx: ' + animation.animate[property][1] + ';');
+                  break;
+                case 'radiusY':
+                  shapeFromRules.push('ry: ' + animation.animate[property][0] + ';');
+                  shapeToRules.push('ry: ' + animation.animate[property][1] + ';');
+                  break;
+                case 'fill':
+                  shapeFromRules.push('fill: ' + animation.animate[property][0] + ';');
+                  shapeToRules.push('fill: ' + animation.animate[property][1] + ';');
+                  break;
+              }
+            }
+            keyframes = '@-webkit-keyframes ' + animation.name + '-shape {\n            from {\n              ' + shapeFromRules.join('\n') + '\n            }\n            to {\n              ' + shapeToRules.join('\n') + '\n            }\n          }';
             styleSheet.insertRule(keyframes, 0);
+            console.log(keyframes);
+
+            keyframes = '@-webkit-keyframes ' + animation.name + '-container {\n            from {\n              ' + shapeContainerFromRules.join('\n') + '\n            }\n            to {\n              ' + shapeContainerToRules.join('\n') + '\n            }\n          }';
+            styleSheet.insertRule(keyframes, 0);
+            console.log(keyframes);
+
+            // keyframes =
+            //   `@-webkit-keyframes ${animations[0].name}-shape {
+            //     from {
+            //       rx: ${animations[0].animations[0].radius[0]};
+            //       ry: ${animations[0].animations[0].radius[0]};
+            //     }
+            //     to {
+            //       rx: ${animations[0].animations[0].radius[1]};
+            //       ry: ${animations[0].animations[0].radius[1]};
+            //     }
+            //   }`
+            // styleSheet.insertRule(keyframes, 0)
+            //
+            // keyframes =
+            //   `@-webkit-keyframes ${animations[0].name}-container {
+            //     from {
+            //       left: 0%;
+            //     }
+            //     to {
+            //       left: 100%;
+            //     }
+            //   }`
+            // styleSheet.insertRule(keyframes, 0)
           });
         })();
       }
       if (play) {
-        shape.animationName = play;
-        animate.forEach(function (animation) {
+        var animationFound = false;
+        animations.forEach(function (animation) {
           if (animation.name === play) {
             if (animation.animationDuration) {
               shape.animationDuration = animation.animationDuration;
+              shapeContainer.animationDuration = animation.animationDuration;
             }
+            shape.animationName = play + '-shape';
+            shapeContainer.animationName = play + '-container';
+            animationFound = true;
           }
         });
+        if (!animationFound) {
+          console.log('Err: No Animation found with that name!');
+        }
       }
 
       return _react2.default.createElement(
